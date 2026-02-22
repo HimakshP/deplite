@@ -5,6 +5,7 @@ pub struct FlagAccount {
     pub admin: Pubkey,     // 32
     pub enabled: bool,     // 1
     pub bump: u8,          // 1
+    pub name: String,      // 4 + 32 (max 32 chars)
 }
 
 impl FlagAccount {
@@ -14,5 +15,6 @@ impl FlagAccount {
         8 + // discriminator
         32 + // admin
         1 + // enabled
-        1; // bump
+        1 + // bump
+        4 + Self::MAX_NAME_LEN; // string prefix + chars
 }
