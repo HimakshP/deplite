@@ -21,14 +21,17 @@ pub struct InitializeFlag<'info> {
 }
 
 pub fn handler(ctx: Context<InitializeFlag>, name: String) -> Result<()> {
-    
+    require!(
+        name.len() <= FlagAccount::MAX_NAME_LEN,
+        FeatureFlagError::NameTooLong
+    );
 
     let flag = &mut ctx.accounts.flag;
 
     flag.admin = ctx.accounts.admin.key();
     flag.enabled = false;
     flag.bump = ctx.bumps.flag;
-    
+    flag.name = name;
 
     Ok(())
 }
