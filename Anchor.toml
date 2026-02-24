@@ -12,7 +12,7 @@ deplite = "C8s478Z3a9BFHEbv5TvZ4iSzw98brqJppAcsYYdrzzDu"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

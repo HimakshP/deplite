@@ -1,0 +1,1 @@
+Backend system is deployed on solana devnet [here](https://explorer.solana.com/tx/4o21yreJBqHocmZJ2rtNex5gVw9Z4dgmBSqnGpCp553SG61St1htPp3tZyjzAnD6XHPGzDR98FApnEWpfFqxmkrL?cluster=devnet)

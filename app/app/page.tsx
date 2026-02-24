@@ -8,18 +8,24 @@ import { CreateFlagForm } from "@/components/create-flag-form"
 import { FlagList } from "@/components/flag-list"
 import { HowItWorks } from "@/components/how-it-works"
 import type { Flag } from "@/components/flag-item"
+import { PublicKey } from "@solana/web3.js"
 
+const PROGRAM_ID = new PublicKey("C8s478Z3a9BFHEbv5TvZ4iSzw98brqJppAcsYYdrzzDu")
 
+function deriveFlagPda(
+  admin: PublicKey,
+  name: string
+): PublicKey {
+  const [pda] = PublicKey.findProgramAddressSync(
+    [
+      Buffer.from("feature_flag"),
+      admin.toBuffer(),
+      Buffer.from(name),
+    ],
+    PROGRAM_ID
+  )
 
-function deriveMockPda(admin: string, name: string): string {
-  const input = admin + name
-  let hash = 0
-  for (let i = 0; i < input.length; i++) {
-    hash = (hash << 5) - hash + input.charCodeAt(i)
-    hash |= 0
-  }
-  const hashStr = Math.abs(hash).toString(16)
-  return hashStr.slice(0, 6) + "..." + name.slice(0, 4)
+  return pda
 }
 
 export default function Page() {
@@ -31,11 +37,13 @@ const { publicKey, connected } = useWallet()
       return
     }
     if (!publicKey) return
+
+    const pda = deriveFlagPda(publicKey, name)
     const newFlag: Flag = {
       id: crypto.randomUUID(),
       name,
       enabled: false,
-      pda: deriveMockPda(publicKey.toBase58(), name),
+      pda: pda.toBase58().slice(0, 6) + "..." + pda.toBase58().slice(-4),
     }
     setFlags((prev) =>
       [...prev, newFlag].sort((a, b) =>
