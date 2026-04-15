@@ -1,16 +1,19 @@
 "use client"
 
-import { useWallet } from "@solana/wallet-adapter-react"
+import { useAnchorWallet, useWallet } from "@solana/wallet-adapter-react"
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui"
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Navbar } from "@/components/navbar"
 import { CreateFlagForm } from "@/components/create-flag-form"
 import { FlagList } from "@/components/flag-list"
 import { HowItWorks } from "@/components/how-it-works"
 import type { Flag } from "@/components/flag-item"
 import { PublicKey } from "@solana/web3.js"
+import { getProgram } from "@/lib/getProgram"
+
 
 const PROGRAM_ID = new PublicKey("C8s478Z3a9BFHEbv5TvZ4iSzw98brqJppAcsYYdrzzDu")
+
 
 function deriveFlagPda(
   admin: PublicKey,
@@ -29,28 +32,96 @@ function deriveFlagPda(
 }
 
 export default function Page() {
-const { publicKey, connected } = useWallet()
+
+  const wallet = useAnchorWallet()
+  const { publicKey, connected } = useWallet()
   const [flags, setFlags] = useState<Flag[]>([])
 
-  const onCreateFlag = useCallback((name: string) => {
-    if (flags.some(f => f.name === name)) {
-      return
-    }
-    if (!publicKey) return
+  const fetchFlags = useCallback(async () => {
+  if (!wallet || !publicKey) return
 
-    const pda = deriveFlagPda(publicKey, name)
-    const newFlag: Flag = {
-      id: crypto.randomUUID(),
-      name,
-      enabled: false,
-      pda: pda.toBase58().slice(0, 6) + "..." + pda.toBase58().slice(-4),
-    }
-    setFlags((prev) =>
-      [...prev, newFlag].sort((a, b) =>
-        a.name.localeCompare(b.name)
+  try {
+    const program = getProgram(wallet)    
+
+    console.log("Accounts:", program.account)
+    console.log("Keys:", Object.keys(program.account))
+
+    const accounts = await program.account.flagAccount.all([
+  {
+    memcmp: {
+      offset: 8,
+      bytes: publicKey.toBase58(),
+    },
+  },
+])  
+
+    const formatted = accounts.map((acc) => ({
+      id: acc.publicKey.toBase58(),
+      name: acc.account.name,
+      enabled: acc.account.enabled,
+      pda:
+        acc.publicKey.toBase58().slice(0, 6) +
+        "..." +
+        acc.publicKey.toBase58().slice(-4),
+    }))
+
+    setFlags(formatted)
+  } catch (err) {
+    console.error("Fetch flags error:", err)
+  }
+}, [wallet, publicKey])
+
+useEffect(() => {
+  if (connected) {
+    fetchFlags()
+  } else {
+    setFlags([])
+  }
+}, [connected, publicKey])
+
+  const onCreateFlag = useCallback(
+  async (name: string) => {
+    if (!publicKey || !wallet) return
+
+    try {
+      const program = getProgram(wallet)
+
+      // Prevent duplicate names (optional but good UX)
+      if (flags.some((f) => f.name === name)) {
+        console.warn("Flag with this name already exists")
+        return
+      }
+
+      // Derive PDA (same seeds as contract)
+      const [flagPda] = PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("feature_flag"),
+          publicKey.toBuffer(),
+          Buffer.from(name),
+        ],
+        program.programId
       )
-    )
-  }, [publicKey, flags])
+
+      // Send transaction
+      await program.methods
+        .initializeFlag(name)
+        .accounts({
+          flag: flagPda,
+          admin: publicKey,
+        })
+        .rpc()
+
+      // Refetch from chain (source of truth)
+      await fetchFlags()
+
+    } catch (err) {
+      console.error("Error creating flag:", err)
+    }
+  },
+  [publicKey, wallet, flags, fetchFlags]
+)
+
+
 
   const onToggleFlag = useCallback((id: string) => {
     setFlags((prev) =>

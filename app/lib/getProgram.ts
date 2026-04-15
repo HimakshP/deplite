@@ -6,6 +6,8 @@ import { PublicKey } from "@solana/web3.js"
 
 const PROGRAM_ID = new PublicKey("C8s478Z3a9BFHEbv5TvZ4iSzw98brqJppAcsYYdrzzDu")
 
+type FeatureFlags = typeof idl
+
 export function getProgram(wallet: any) {
   const connection = new Connection("https://api.devnet.solana.com")
 
@@ -15,5 +17,8 @@ export function getProgram(wallet: any) {
     { commitment: "confirmed" }
   )
 
-  return new Program(idl as Idl, provider)
+  return new Program
+  (
+    idl as FeatureFlags,
+    provider)
 }
