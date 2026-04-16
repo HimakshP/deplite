@@ -5,7 +5,7 @@ import { FlagItem, type Flag } from "./flag-item"
 interface FlagListProps {
   flags: Flag[]
   onToggle: (flag: Flag) => Promise<void>
-  onDelete: (id: string) => void
+  onDelete: (flag: Flag) => Promise<void>
 }
 
 export function FlagList({ flags, onToggle, onDelete }: FlagListProps) {

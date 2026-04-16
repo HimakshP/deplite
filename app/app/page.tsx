@@ -147,9 +147,31 @@ useEffect(() => {
   [wallet, publicKey, fetchFlags]
 )
 
-  const onDeleteFlag = useCallback((id: string) => {
-    setFlags((prev) => prev.filter((f) => f.id !== id))
-  }, [])
+  const onDeleteFlag = useCallback(
+  async (flag: Flag) => {
+    if (!wallet || !publicKey) return
+
+    try {
+      const program = getProgram(wallet) as any
+
+      const flagPda = new PublicKey(flag.id)
+
+      await program.methods
+        .closeFlag()
+        .accounts({
+          flag: flagPda,
+          admin: publicKey,
+        })
+        .rpc()
+
+      await fetchFlags()
+
+    } catch (err) {
+      console.error("Delete error:", err)
+    }
+  },
+  [wallet, publicKey, fetchFlags]
+)
 
   return (
     <div className="min-h-screen bg-background">

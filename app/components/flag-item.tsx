@@ -10,7 +10,7 @@ export interface Flag {
 interface FlagItemProps {
   flag: Flag
   onToggle: (flag: Flag) => Promise<void>
-  onDelete: (id: string) => void
+  onDelete: (flag: Flag) => Promise<void>
 }
 
 export function FlagItem({ flag, onToggle, onDelete }: FlagItemProps) {
@@ -46,7 +46,7 @@ export function FlagItem({ flag, onToggle, onDelete }: FlagItemProps) {
           />
         </button>
         <button
-          onClick={() => onDelete(flag.id)}
+          onClick={() => onDelete(flag)}
           className="text-xs text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap"
         >
           Delete
