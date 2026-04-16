@@ -10,6 +10,7 @@ import { HowItWorks } from "@/components/how-it-works"
 import type { Flag } from "@/components/flag-item"
 import { PublicKey } from "@solana/web3.js"
 import { getProgram } from "@/lib/getProgram"
+import { id } from "date-fns/locale"
 
 
 const PROGRAM_ID = new PublicKey("C8s478Z3a9BFHEbv5TvZ4iSzw98brqJppAcsYYdrzzDu")
@@ -41,21 +42,18 @@ export default function Page() {
   if (!wallet || !publicKey) return
 
   try {
-    const program = getProgram(wallet)    
-
-    console.log("Accounts:", program.account)
-    console.log("Keys:", Object.keys(program.account))
+    const program = getProgram(wallet) as any
 
     const accounts = await program.account.flagAccount.all([
-  {
-    memcmp: {
-      offset: 8,
-      bytes: publicKey.toBase58(),
-    },
-  },
-])  
+      {
+        memcmp: {
+          offset: 8,
+          bytes: publicKey.toBase58(),
+        },
+      },
+    ])
 
-    const formatted = accounts.map((acc) => ({
+    const formatted = accounts.map((acc: any) => ({
       id: acc.publicKey.toBase58(),
       name: acc.account.name,
       enabled: acc.account.enabled,
@@ -123,11 +121,31 @@ useEffect(() => {
 
 
 
-  const onToggleFlag = useCallback((id: string) => {
-    setFlags((prev) =>
-      prev.map((f) => (f.id === id ? { ...f, enabled: !f.enabled } : f))
-    )
-  }, [])
+  const onToggleFlag = useCallback(
+  async (flag: Flag) => {
+    if (!wallet || !publicKey) return
+
+    try {
+      const program = getProgram(wallet) as any
+
+      const flagPda = new PublicKey(flag.id)
+
+      await program.methods
+        .toggleFlag(!flag.enabled)
+        .accounts({
+          flag: flagPda,
+          admin: publicKey,
+        })
+        .rpc()
+
+      await fetchFlags()
+
+    } catch (err) {
+      console.error("Toggle error:", err)
+    }
+  },
+  [wallet, publicKey, fetchFlags]
+)
 
   const onDeleteFlag = useCallback((id: string) => {
     setFlags((prev) => prev.filter((f) => f.id !== id))

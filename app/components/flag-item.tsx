@@ -9,7 +9,7 @@ export interface Flag {
 
 interface FlagItemProps {
   flag: Flag
-  onToggle: (id: string) => void
+  onToggle: (flag: Flag) => Promise<void>
   onDelete: (id: string) => void
 }
 
@@ -27,7 +27,7 @@ export function FlagItem({ flag, onToggle, onDelete }: FlagItemProps) {
       </div>
       <div className="flex items-center gap-4 ml-4 flex-shrink-0">
         <button
-          onClick={() => onToggle(flag.id)}
+          onClick={() => onToggle(flag)}
           className="relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full transition-colors"
           style={{
             backgroundColor: flag.enabled
