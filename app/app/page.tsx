@@ -8,13 +8,12 @@ import { CreateFlagForm } from "@/components/create-flag-form"
 import { FlagList } from "@/components/flag-list"
 import { HowItWorks } from "@/components/how-it-works"
 import type { Flag } from "@/components/flag-item"
-import { PublicKey } from "@solana/web3.js"
+import { Connection, PublicKey } from "@solana/web3.js"
 import { getProgram } from "@/lib/getProgram"
-import { id } from "date-fns/locale"
 
 
 const PROGRAM_ID = new PublicKey("C8s478Z3a9BFHEbv5TvZ4iSzw98brqJppAcsYYdrzzDu")
-
+//const connection = new PublicKey("https://devnet.helius-rpc.com/?api-key=521ac8a4-be7b-4f47-b49c-9cdfa9cb770f")
 
 function deriveFlagPda(
   admin: PublicKey,
@@ -42,7 +41,7 @@ export default function Page() {
   if (!wallet || !publicKey) return
 
   try {
-    const program = getProgram(wallet) as any
+    const program = getProgram(wallet) 
 
     const accounts = await program.account.flagAccount.all([
       {
@@ -77,6 +76,31 @@ useEffect(() => {
   }
 }, [connected, publicKey])
 
+useEffect(() => {
+  if (!wallet || !publicKey) return
+
+  const connection = new Connection("https://devnet.helius-rpc.com/?api-key=521ac8a4-be7b-4f47-b49c-9cdfa9cb770f")
+
+  let subId: number
+
+  const setup = async () => {
+
+    subId = connection.onProgramAccountChange(
+      PROGRAM_ID,
+      async () => {
+        console.log("FLAG CHANGED (dashboard)")
+        await fetchFlags()
+      }
+    )
+  }
+
+  setup()
+
+  return () => {
+    if (subId) connection.removeProgramAccountChangeListener(subId)
+  }
+}, [wallet, publicKey, fetchFlags])
+
   const onCreateFlag = useCallback(
   async (name: string) => {
     if (!publicKey || !wallet) return
@@ -84,7 +108,6 @@ useEffect(() => {
     try {
       const program = getProgram(wallet)
 
-      // Prevent duplicate names (optional but good UX)
       if (flags.some((f) => f.name === name)) {
         console.warn("Flag with this name already exists")
         return
@@ -98,12 +121,12 @@ useEffect(() => {
           Buffer.from(name),
         ],
         program.programId
-      )
+      )   
 
       // Send transaction
       await program.methods
         .initializeFlag(name)
-        .accounts({
+        .accountsPartial({
           flag: flagPda,
           admin: publicKey,
         })
