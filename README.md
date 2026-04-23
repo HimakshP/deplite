@@ -6,7 +6,7 @@
 Deplite is a lightweight SDK that lets you control application features **without redeploying code**, using Solana as a shared on-chain configuration layer.
 
 
-## ✨ Why Deplite?
+## Why Deplite?
 
 Traditional feature flag systems rely on centralized backends.
 
@@ -19,7 +19,7 @@ Deplite replaces that with:
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ```bash
 npm install deplite
@@ -27,7 +27,7 @@ npm install deplite
 
 ---
 
-## ⚡ Quickstart
+## Quickstart
 
 ```ts
 import { createDepliteClient } from "deplite"
@@ -43,7 +43,7 @@ const enabled = await client.get("feature_name")
 
 ---
 
-## 🔄 Realtime Updates
+## Realtime Updates
 
 ```ts
 client.subscribe("feature_name", (value) => {
@@ -53,7 +53,7 @@ client.subscribe("feature_name", (value) => {
 
 ---
 
-## 🧠 Core Concepts
+## Core Concepts
 
 ### Feature Flags (On-chain)
 
@@ -91,7 +91,7 @@ Deplite acts as a **control plane for runtime behavior**:
 
 ---
 
-## 🧩 SDK Reference
+## SDK Reference
 
 ### Create Client
 
@@ -136,7 +136,7 @@ unsubscribe()
 
 ---
 
-## ⚙️ How It Works
+## How It Works
 
 1. Flags are created via on-chain program
 2. State is stored in PDAs
@@ -145,7 +145,7 @@ unsubscribe()
 
 ---
 
-## 🧪 Example Use Case
+## Example Use Case
 
 ```ts
 const enabled = await client.get("version_intelligence")
@@ -159,14 +159,14 @@ if (enabled) {
 
 ---
 
-## 🌐 Demo
+## Demo
 
 * Dashboard: *(your deployed link)*
 * Example app: *(xandeum link)*
 
 ---
 
-## 🔐 Why Solana?
+## Why Solana?
 
 Deplite uses Solana because it provides:
 
@@ -177,7 +177,7 @@ Deplite uses Solana because it provides:
 
 ---
 
-## 🛣️ Roadmap
+## Roadmap
 
 * % rollout (progressive delivery)
 * user targeting (beta testers)
@@ -186,7 +186,7 @@ Deplite uses Solana because it provides:
 
 ---
 
-## 📦 Architecture
+## Architecture
 
 ```
 Frontend App
