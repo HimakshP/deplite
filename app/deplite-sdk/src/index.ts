@@ -1,6 +1,6 @@
 import { Connection, PublicKey } from "@solana/web3.js"
 import { AnchorProvider, Program } from "@coral-xyz/anchor"
-import idl from "../../idl/deplite.json"
+import idl from "../src/idl/deplite.json"
 import { Deplite } from "../../idl/deplite.d"
 
 export function createDepliteClient(config: {

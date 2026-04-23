@@ -6,14 +6,14 @@ import {
   WalletProvider as SolanaWalletProvider,
 } from "@solana/wallet-adapter-react"
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui"
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets"
+import { SolflareWalletAdapter } from "@solana/wallet-adapter-solflare"
 
 
 
 export const WalletProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const endpoint = "https://api.devnet.solana.com"
 
-  const wallets = useMemo(() => [new PhantomWalletAdapter()], [])
+  const wallets = useMemo(() => [new SolflareWalletAdapter()], [])
 
   return (
     <ConnectionProvider endpoint={endpoint}>

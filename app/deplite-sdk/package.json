@@ -1,11 +1,13 @@
 {
   "name": "deplite",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && cp -r src/idl dist/idl"
   },
   "dependencies": {
     "@solana/web3.js": "^1.95.0",
