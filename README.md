@@ -5,6 +5,7 @@
 
 Deplite is a lightweight SDK that lets you control application features **without redeploying code**, using Solana as a shared on-chain configuration layer.
 
+---
 
 ## Why Deplite?
 

@@ -8,7 +8,8 @@
     "moduleResolution": "bundler",
     "skipLibCheck": true,
     "strict": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": ["src", "src/deplite.ts"]
 }
