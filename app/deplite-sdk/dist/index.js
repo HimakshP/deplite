@@ -4,7 +4,11 @@ import idl from "./idl/deplite.json";
 export function createDepliteClient(config) {
     const PROGRAM_ID = new PublicKey(config.programId);
     const ADMIN = new PublicKey(config.admin);
-    const connection = new Connection(config.rpc || process.env.NEXT_PUBLIC_HELIUS_RPC);
+    const RPC =
+  process.env.NEXT_PUBLIC_HELIUS_RPC ||
+  "https://api.devnet.solana.com";
+
+const connection = new Connection(RPC);
     const provider = new AnchorProvider(connection, {}, {});
     const program = new Program(idl, provider);
     function derivePda(flagName) {

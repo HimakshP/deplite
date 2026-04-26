@@ -5,9 +5,11 @@ import idl from "../idl/deplite.json"
 
 export function getProgram(wallet: any) {
   
-  const connection = new Connection(
-  process.env.NEXT_PUBLIC_HELIUS_RPC!
-);
+  const RPC =
+  process.env.NEXT_PUBLIC_HELIUS_RPC ||
+  "https://api.devnet.solana.com";
+
+const connection = new Connection(RPC);
   const provider = new AnchorProvider(
     connection,
     wallet,
