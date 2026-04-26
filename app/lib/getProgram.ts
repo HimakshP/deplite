@@ -5,7 +5,9 @@ import idl from "../idl/deplite.json"
 
 export function getProgram(wallet: any) {
   
-  const connection = new Connection("https://devnet.helius-rpc.com/?api-key=521ac8a4-be7b-4f47-b49c-9cdfa9cb770f")
+  const connection = new Connection(
+  process.env.NEXT_PUBLIC_HELIUS_RPC!
+);
   const provider = new AnchorProvider(
     connection,
     wallet,

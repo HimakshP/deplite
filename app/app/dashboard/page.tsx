@@ -7,9 +7,7 @@ import { CreateFlagForm } from "@/components/create-flag-form"
 import type { Flag } from "@/components/flag-item"
 import { Connection, PublicKey } from "@solana/web3.js"
 import { getProgram } from "@/lib/getProgram"
-import { Plus } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
 
 
 const PROGRAM_ID = new PublicKey("C8s478Z3a9BFHEbv5TvZ4iSzw98brqJppAcsYYdrzzDu")
@@ -211,7 +209,7 @@ useEffect(() => {
       <div className="px-3 py-2 rounded-md bg-primary-soft text-primary font-medium text-sm">
         Dashboard
       </div>
-      <div className="px-3 py-2 text-sm text-muted-foreground">Docs</div>
+      <Link href="/docs" className="px-3 py-2 rounded-md font-medium text-sm">Docs</Link>
     </nav>
 
     <div className="p-3 border-t border-border">

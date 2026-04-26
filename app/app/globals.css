@@ -80,4 +80,54 @@
       linear-gradient(to bottom, hsl(var(--border) / 0.6) 1px, transparent 1px);
     background-size: 48px 48px;
   }
+
+  .hljs {
+  background: transparent !important;
+  color: #e6edf3;
+}
+
+/* keywords */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal {
+  color: #7c9cff;
+}
+
+/* strings */
+.hljs-string {
+  color: #7ee787;
+}
+
+/* functions */
+.hljs-title,
+.hljs-function .hljs-title {
+  color: #79c0ff;
+}
+
+/* variables */
+.hljs-variable {
+  color: #ffa657;
+}
+
+/* numbers */
+.hljs-number {
+  color: #79c0ff;
+}
+
+/* comments */
+.hljs-comment {
+  color: #8b949e;
+  font-style: italic;
+}
+
+/* builtins */
+.hljs-built_in,
+.hljs-type {
+  color: #ffa657;
+}
+
+/* operators */
+.hljs-operator {
+  color: #c9d1d9;
+}
 }

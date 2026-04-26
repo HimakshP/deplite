@@ -12,8 +12,9 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui"
 
 
 export const WalletProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const endpoint = "https://devnet.helius-rpc.com/?api-key=521ac8a4-be7b-4f47-b49c-9cdfa9cb770f"
-
+  const endpoint = (
+  process.env.NEXT_PUBLIC_HELIUS_RPC!
+);
   const wallets = useMemo(() => [new SolflareWalletAdapter()], [])
 
   return (

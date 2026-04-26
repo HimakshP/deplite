@@ -10,10 +10,10 @@ export function createDepliteClient(config: {
 }) {
   const PROGRAM_ID = new PublicKey(config.programId)
   const ADMIN = new PublicKey(config.admin)
-
-  const connection = new Connection(
-    config.rpc || "https://devnet.helius-rpc.com/?api-key=521ac8a4-be7b-4f47-b49c-9cdfa9cb770f"
-  )
+  
+const connection = new Connection(
+  process.env.NEXT_PUBLIC_HELIUS_RPC!
+);
 
   const provider = new AnchorProvider(connection, {} as any, {})
   const program = new Program<Deplite>(idl , provider) 

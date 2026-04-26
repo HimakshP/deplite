@@ -1,7 +1,7 @@
 import CodeBlock from "@/components/CodeBlock";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Boxes, Github, Globe2, Layers, PlayCircle, Radio, ShieldCheck, Sparkles, Workflow, Zap } from "lucide-react";
+import { ArrowRight, Boxes, Github, Globe2, Hammer, Layers, PlayCircle, Radio, ShieldCheck, Sparkles, Toolbox, ToolCase, Workflow, Zap } from "lucide-react";
 import Link from "next/link";
 ;
 
@@ -49,7 +49,12 @@ const whySolana = [
 
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 grid-bg pointer-events-none" aria-hidden />
+        <div className="absolute inset-0 pointer-events-none 
+  bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] 
+  bg-[size:40px_40px] 
+  [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)] 
+  opacity-80" 
+/>
         <div className="relative mx-auto max-w-7xl px-6 pt-16 pb-16 lg:pt-20 lg:pb-20">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary-soft px-3 py-1 text-xs font-medium text-primary mb-6">
@@ -74,15 +79,15 @@ const whySolana = [
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="press hover:border-primary/40 hover:text-primary transition-all">
-                <a href="https://github.com" target="_blank" rel="noreferrer">
+                <a href="https://github.com/HimakshP/deplite" target="_blank" rel="noreferrer">
                   <Github className="mr-1.5 h-4 w-4" />
                   View GitHub
                 </a>
               </Button>
-              <Button asChild size="lg" variant="ghost" className="press">
-                <a href="#demo">
-                  <PlayCircle className="mr-1.5 h-4 w-4" />
-                  Live Demo
+              <Button asChild size="lg" variant="outline" className="press hover:border-primary/40 hover:text-primary transition-all">
+                <a href="https://www.npmjs.com/package/deplite" target="_blank" rel="noreferrer">
+                  <Hammer className="mr-1.5 h-4 w-4" />
+                  View Sdk
                 </a>
               </Button>
             </div>
@@ -250,7 +255,7 @@ const whySolana = [
           <div className="flex items-center gap-5">
             <Link href="/docs" className="hover:text-foreground transition-colors">Docs</Link>
             <Link href="/dashboard" className="hover:text-foreground transition-colors">Dashboard</Link>
-            <a href="https://github.com" className="hover:text-foreground transition-colors">GitHub</a>
+            <a href="https://github.com/HimakshP/deplite" className="hover:text-foreground transition-colors">GitHub</a>
           </div>
         </div>
       </footer>
