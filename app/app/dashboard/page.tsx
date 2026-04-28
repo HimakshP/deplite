@@ -11,7 +11,6 @@ import Link from "next/link";
 
 
 const PROGRAM_ID = new PublicKey("C8s478Z3a9BFHEbv5TvZ4iSzw98brqJppAcsYYdrzzDu")
-//const connection = new PublicKey("https://devnet.helius-rpc.com/?api-key=521ac8a4-be7b-4f47-b49c-9cdfa9cb770f")
 
 function deriveFlagPda(
   admin: PublicKey,
@@ -111,7 +110,6 @@ useEffect(() => {
         return
       }
 
-      // Derive PDA (same seeds as contract)
       const [flagPda] = PublicKey.findProgramAddressSync(
         [
           Buffer.from("feature_flag"),
@@ -121,7 +119,6 @@ useEffect(() => {
         program.programId
       )   
 
-      // Send transaction
       await program.methods
         .initializeFlag(name)
         .accountsPartial({
@@ -130,7 +127,7 @@ useEffect(() => {
         })
         .rpc()
 
-      // Refetch from chain (source of truth)
+      
       await fetchFlags()
 
     } catch (err) {

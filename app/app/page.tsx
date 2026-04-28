@@ -1,10 +1,8 @@
 import CodeBlock from "@/components/CodeBlock";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Boxes, Github, Globe2, Hammer, Layers, PlayCircle, Radio, ShieldCheck, Sparkles, Toolbox, ToolCase, Workflow, Zap } from "lucide-react";
+import { ArrowRight, Boxes, Github, Globe2, Hammer, Layers, PlayCircle, Radio, ShieldCheck, Sparkles, Toolbox, ToolCase, Workflow, X, Zap } from "lucide-react";
 import Link from "next/link";
-;
-
 
 export default function Home() {
 
@@ -204,13 +202,15 @@ const whySolana = [
               <div className="absolute inset-0 grid-bg opacity-40" aria-hidden />
               <div className="relative flex flex-col items-center">
                 <div className="relative">
-                  <span className="absolute inset-0 rounded-full animate-pulse-ring" />
-                  <div className="relative h-16 w-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                    <PlayCircle className="h-8 w-8" />
-                  </div>
+                  <video
+                    className="w-full aspect-video rounded-2xl border border-border"
+                    src="/Deplite_canv.mp4"
+                    controls
+                    autoPlay
+                    muted
+                    loop
+                  />
                 </div>
-                <span className="mt-4 text-sm font-medium text-foreground">Watch a 60s walkthrough</span>
-                <span className="mt-1 text-xs text-muted-foreground">Flip a flag → watch UI update instantly</span>
               </div>
             </div>
           </div>
